@@ -43,13 +43,16 @@ gem 'rspec'
 
 gem 'rspec-rails'
 
-gem 'pry'
+
+gem 'carrierwave-base64'
 
 # gem 'bootstrap', '~> 4.5.3'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'pry'
+
 end
 
 group :development do
@@ -63,6 +66,10 @@ group :test do
   gem 'selenium-webdriver'
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper', '1.2.0'
+end
+
+group :production do
+  gem 'rails_12factor', '0.0.2'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
