@@ -1,0 +1,13 @@
+<div class="d-flex flex-column">
+	<div class="align-self-end">
+		<%= link_to "Create Post", '/posts/new', :class => "btn btn-info mt-2" %>
+	</div>
+	<div>
+		<% @posts.each do |post| %>
+	     <h2><%= link_to post.title, post %></h2>
+	     <p><%= truncate(post.content) %></p>
+		<% end %>
+
+		<%= will_paginate @posts %>
+	</div>
+</div>

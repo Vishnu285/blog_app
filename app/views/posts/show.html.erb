@@ -1,0 +1,55 @@
+<div>
+  <h1><%= @post.title %></h1>
+  <h3><%= @post.author.name %></h3>
+  <div>
+    <p><%= @post.content %></p>
+  </div>
+  <div>
+    <% if @post.image.present? %>
+      <%= image_tag @post.image_url.to_s, alt: "Image", class: "img-responsive" %>
+    <% end %>
+  </div>
+
+  <% if @current_user && @current_user == @post.author %>
+    <% if @current_user == @post.author %>
+  		<%= link_to "Edit", edit_post_path(@post), :class => "btn btn-primary mb-2" %>
+  		<%= link_to "Delete", @post, method: :delete, data: { confirm: "Are you sure?"}, :class => "btn btn-danger mb-2" %>
+  	<% end %>
+  <% end %>
+  <div>
+    <label style="font-size: 30px;">Comments</label>
+    <% @post.comments.each do |comment| %>
+      <h6><%= comment.user.name %></h6>
+      <p><%= comment.content %></p>
+    <% end %>
+  </div>
+
+  <% if @current_user && @current_user == @post.author %>
+    <div class="text-right mb-2">
+      <button id="add_comment" class="btn btn-info">Add Comments</button>
+    </div>
+  <% end %>
+
+  <%= form_tag add_comment_path, :id => 'add_comment_form', :method => 'post' do %>
+    <%= hidden_field_tag "id", @post.id %>
+    <div class="form-group">
+      <%= text_area_tag 'comment', nil, :class => "form-control" %>
+    </div>
+    <div class="form-group">
+      <%= submit_tag 'Save', :class => "btn btn-dark"%>
+    </div>
+  <% end %>
+</div>
+<% content_for :scripts do %>
+
+  jQuery(function($) {
+    $(document).ready(function(){
+ 			$('#add_comment_form').hide();
+    });
+  	$('#add_comment').on('click', function(){
+  		$('#add_comment_form').show();
+    });
+  })
+    
+<% end %>
+  

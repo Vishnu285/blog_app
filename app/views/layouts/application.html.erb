@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>BlogPostApp</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application' %>  
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+      <a class="navbar-brand" href="#">Blog App</a>
+      <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+        </ul>
+        <% if @current_user %>
+          <%= form_tag('/logout', method: :get) do %>
+            <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+            <button name="logout" type="submit" class="btn btn-outline-info my-2 my-sm-0">Logout</button>
+          <% end %>
+        <% end %>
+      </div>
+    </nav>
+    <div class="container">
+      <% unless flash[:success].blank? %>
+        <div class="alert alert-success">
+          <%= flash[:success] %>
+        </div>
+      <% end %>
+
+      <% unless flash[:notice].blank? %>
+        <div class="alert alert-primary">
+          <%= flash[:notice] %>
+        </div>
+      <% end %>
+
+      <% unless flash[:error].blank? %>
+        <div class="alert alert-danger">
+          <%= flash[:error] %>
+        </div>
+      <% end %>
+      <%= yield %>
+    </div>
+    <script type="text/javascript">
+      <%= content_for :scripts %>
+    </script>
+  </body>
+  
+</html>
