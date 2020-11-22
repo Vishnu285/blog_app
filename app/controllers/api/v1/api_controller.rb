@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class ApiController < ApplicationController
@@ -6,24 +8,22 @@ module Api
 
       private
 
-        def check_basic_auth
-          unless request.authorization.present?
+      def check_basic_auth
+        unless request.authorization.present?
+          head :unauthorized
+          return
+        end
+        authenticate_with_http_basic do |email, password|
+          user = User.find_by(email_address: email.downcase)
+          if user&.authenticate(password)
+            @current_user = user
+          else
             head :unauthorized
-            return
-          end
-          authenticate_with_http_basic do |email, password|
-            user = User.find_by(email_address: email.downcase)
-            if user && user.authenticate(password)
-              @current_user = user
-            else
-              head :unauthorized
-            end
           end
         end
+      end
 
-        def current_user
-          @current_user
-        end
+      attr_reader :current_user
     end
   end
 end
