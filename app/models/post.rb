@@ -1,7 +1,7 @@
 class Post < ApplicationRecord
   belongs_to :author, class_name: "User", primary_key: :id, foreign_key: :author_id
   has_many :comments, as: :commentable
-  mount_uploader :image, ImageUploader
+  mount_base64_uploader :image, ImageUploader
 
   def self.build_from_json(json_params)
     post_params = get_post_params(json_params)
@@ -22,7 +22,7 @@ class Post < ApplicationRecord
   end
 
   def self.get_post_params(json_params)
-    json_params["post"].permit(:title, :content)
+    json_params["post"].permit(:title, :content, :image)
   end
 
 end

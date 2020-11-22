@@ -6,7 +6,7 @@
   </div>
   <div>
     <% if @post.image.present? %>
-      <%= image_tag @post.image_url.to_s, alt: "Image", class: "img-responsive" %>
+      <%= image_tag @post.image_url.to_s, alt: "Image", class: "img-fluid mb-5" %>
     <% end %>
   </div>
 
