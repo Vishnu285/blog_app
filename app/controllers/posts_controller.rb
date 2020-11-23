@@ -8,7 +8,15 @@ class PostsController < AuthenticationController
     @posts = Post.paginate(page: params[:page], per_page: 10)
   end
 
-  def show; end
+  def show
+    if stale?(last_modified: @post.updated_at)
+      respond_to do |format|
+        format.html
+        format.json { render json: @post }
+      end
+    end
+    expires_in 1.day, :public => true
+  end
 
   def new
     @post = Post.new
